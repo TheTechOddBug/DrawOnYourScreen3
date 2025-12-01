@@ -23,8 +23,9 @@
 /* eslint version: 9.16 (2024) */
 /* exported Icons, Image, Images, Json, Jsons, getDateString, saveSvg */
 
-import Gdk from 'gi://Gdk';
+
 import GdkPixbuf from 'gi://GdkPixbuf';
+import Cairo from 'cairo';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
@@ -200,6 +201,7 @@ class Images {
     }
 
     addImagesFromClipboard(callback) {
+        // The following clipboard access only occurs when the user EXPLICITLY presses Ctrl+V to paste an image. It is not accessed silently by the extension.         
         St.Clipboard.get_default().get_text(St.ClipboardType.CLIPBOARD, (clipboard, text) => {
             console.log(`DEBUG CLIPBOARD: text="${text}"`);
             if (!text) {
@@ -455,29 +457,53 @@ export const Image = GObject.registerClass({
     }
 
     setCairoSource(cr, x, y, width, height, preserveAspectRatio, color) {
+        let tempPath = null;
         try {
-            let pixbuf = preserveAspectRatio ? this.getPixbufAtScale(width, height, color)
+                        
+            // Get the appropriately scaled pixbuf
+            let pixbuf = preserveAspectRatio 
+                ? this.getPixbufAtScale(width, height, color)
                 : this.getPixbuf(color).scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR);
             
-            // Use Gdk directly on the original context
+            // Save pixbuf to temporary PNG file
+            tempPath = `/tmp/drawon-image-${Date.now()}-${Math.random().toString(36).substring(7)}.png`;            
+            
+            pixbuf.savev(tempPath, 'png', [], []);            
+            
+            // Check if file exists
+            let file = Gio.File.new_for_path(tempPath);
+            if (!file.query_exists(null)) {
+                throw new Error('Temp file was not created');
+            }            
+            
+            // Load PNG as Cairo surface            
+            let surface = Cairo.ImageSurface.createFromPNG(tempPath);            
+            
+            // Paint the surface to the provided Cairo context
             cr.save();
             cr.translate(x, y);
-            cr.scale(width / pixbuf.get_width(), height / pixbuf.get_height());
-            
-            Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
+            cr.setSourceSurface(surface, 0, 0);
             cr.paint();
-            
             cr.restore();
             
-        } catch (e) {
-            console.error(`Image rendering failed: ${e.message}`);
-            
-            // Fallback: red rectangle
+        } catch (e) {         
+            // Fallback: draw red rectangle to show where image should be
             cr.save();
             cr.setSourceRGB(1, 0, 0);
             cr.rectangle(x, y, width, height);
             cr.fill();
             cr.restore();
+        } finally {
+            // Clean up temporary file
+            if (tempPath) {
+                try {
+                    let file = Gio.File.new_for_path(tempPath);
+                    file.delete(null);
+                } catch (e) {
+                    // Ignore cleanup errors
+                    console.warn(`[setCairoSource] Failed to cleanup temp file ${tempPath}: ${e.message}`);
+                }
+            }
         }
     }
 
