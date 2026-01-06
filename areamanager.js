@@ -201,7 +201,7 @@ export class AreaManager {
             'paste-image-files': this.activeArea.pasteImageFiles.bind(this.activeArea),
             'switch-linejoin': this.activeArea.switchLineJoin.bind(this.activeArea),
             'switch-linecap': this.activeArea.switchLineCap.bind(this.activeArea),
-            'switch-fill-rule': this.activeArea.switchFillRule.bind(this.activeArea),
+            // Removed 'switch-fill-rule' - moved to internalKeybindings2 - intermittent issue of fill rule shortcut
             'switch-dash' : this.activeArea.switchDash.bind(this.activeArea),
             'switch-fill' : this.activeArea.switchFill.bind(this.activeArea),
             'switch-image-file' : this.activeArea.switchImageFile.bind(this.activeArea, false),
@@ -230,7 +230,7 @@ export class AreaManager {
         };
         
         // available when writing
-        this.internalKeybindings2 = {
+        this.internalKeybindings2 = {            
             'export-to-svg': this.activeArea.exportToSvg.bind(this.activeArea),
             'save-as-json': this.activeArea.saveAsJson.bind(this.activeArea, true, null),
             'open-previous-json': this.activeArea.loadPreviousJson.bind(this.activeArea),
@@ -307,15 +307,16 @@ export class AreaManager {
         } else {
             let activeIndex = this.areas.indexOf(this.activeArea);
             
-            // dash-to-dock
-            let dtdContainers = Main.uiGroup.get_children().filter((actor) => {
-                return actor.name && actor.name == 'dashtodockContainer' &&
-                       ((actor._delegate?._monitorIndex !== undefined &&
-                         actor._delegate?._monitorIndex == activeIndex) ||
-                         // dtd v68+
-                        (actor._monitorIndex !== undefined &&
-                         actor._monitorIndex == activeIndex));
-            });
+            // dash-to-dock - disabled (user doesn't want dash hidden)
+            let dtdContainers = [];
+            // OLD CODE (kept as comment for reference):
+            // let dtdContainers = Main.uiGroup.get_children().filter((actor) => {
+            //     return actor.name && actor.name == 'dashtodockContainer' &&
+            //            ((actor._delegate && actor._delegate._monitorIndex !== undefined &&
+            //              actor._delegate._monitorIndex == activeIndex) ||
+            //             (actor._monitorIndex !== undefined &&
+            //              actor._monitorIndex == activeIndex));
+            // });
             
             // for simplicity, we assume that main dash-to-panel panel is displayed on primary monitor
             // and we hide all secondary panels together if the active area is not on the primary
@@ -489,11 +490,34 @@ export class AreaManager {
     }
     
     setCursor(sourceActor_, cursorName) {
-        // check display or screen (API changes)
-        if (global.display.set_cursor)
-            global.display.set_cursor(Meta.Cursor[cursorName]);
-        else if (global.screen && global.screen.set_cursor)
-            global.screen.set_cursor(Meta.Cursor[cursorName]);
+        // Map cursor names for GNOME 46/47 fallback compatibility
+        let cursorMap = {
+            'MOVE': this._SHELL_MAJOR_VERSION >= 48 ? 'MOVE' : 'DND_MOVE',
+            'POINTER': this._SHELL_MAJOR_VERSION >= 48 ? 'POINTER' : 'POINTING_HAND', 
+            'NONE': this._SHELL_MAJOR_VERSION >= 48 ? 'NONE' : 'BLANK',
+            'CROSSHAIR': 'CROSSHAIR',
+            'TEXT': this._SHELL_MAJOR_VERSION >= 48 ? 'TEXT' : 'IBEAM',
+            'DEFAULT': 'DEFAULT'
+        };
+        
+        let mappedCursorName = cursorMap[cursorName] || cursorName;
+        
+        // Safety check: verify the cursor constant exists before using it
+        if (!Meta.Cursor[mappedCursorName]) {
+            // Fallback to DEFAULT if cursor doesn't exist
+            log(`Draw On Gnome: Cursor ${mappedCursorName} not found, using DEFAULT`);
+            mappedCursorName = 'DEFAULT';
+        }
+        
+        // Check display or screen (API changes)  
+        try {
+            if (global.display.set_cursor)
+                global.display.set_cursor(Meta.Cursor[mappedCursorName]);
+            else if (global.screen && global.screen.set_cursor)
+                global.screen.set_cursor(Meta.Cursor[mappedCursorName]);
+        } catch (e) {
+            log(`Draw On Gnome: Error setting cursor ${mappedCursorName}: ${e.message}`);
+        }
     }
     
     removeAreas() {

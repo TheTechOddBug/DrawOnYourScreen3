@@ -85,10 +85,15 @@ export default class DrawOnGnomeExtension extends Extension {
     }
 
     enable() {
-        // Get settings instances ONCE - this is the entry point
+        console.log(`enabling ${this.metadata.name} version ${this.metadata.version}`);
+        
         this.settings = this.getSettings();
         this.internalShortcutSettings = this.getSettings(this.metadata['settings-schema'] + '.internal-shortcuts');
         this.drawingSettings = this.getSettings(this.metadata['settings-schema'] + '.drawing');
+        
+        // CRITICAL: Initialize FILES before AreaManager to avoid race condition
+        // AreaManager creates DrawingAreas which may try to load persistent data
+        this.FILES = new Files(this);
         
         this.areaManager = new AreaManager.AreaManager(this);
         this.areaManager.enable();
@@ -99,8 +104,6 @@ export default class DrawOnGnomeExtension extends Extension {
         // Watch for settings changes
         this._settingsChangedId = this.settings.connect('changed::quicktoggle-disabled', 
             this._updateIndicator.bind(this));
-
-        this.FILES = new Files(this);
     }
 
     disable() {

@@ -34,7 +34,8 @@ import PangoCairo from 'gi://PangoCairo';
 
 import { CURATED_UUID as UUID } from './utils.js';
 
-const Color = Clutter.Color ?? Cogl.Color;
+// replacing this nullish with a ternay: const Color = Clutter.Color ?? Cogl.Color;
+const Color = Clutter.Color ? Clutter.Color : Cogl.Color;
 
 export const StaticColor = {
     WHITE: Color.from_string('#ffffff')[1],
@@ -117,7 +118,7 @@ const _DrawingElement = GObject.registerClass({
             });
         }
         
-        if (params.transform?.center) {
+        if (params.transform && params.transform.center) {
             let angle = (params.transform.angle || 0) + (params.transform.startAngle || 0);
             if (angle)
                 this.transformations.push({ type: Transformation.ROTATION, angle: angle });
@@ -164,7 +165,7 @@ const _DrawingElement = GObject.registerClass({
         if (this.fillRule)
             cr.setFillRule(this.fillRule);
         
-        if (this.dash?.active && this.dash.array && this.dash.array[0] && this.dash.array[1])
+        if (this.dash && this.dash.active && this.dash.array && this.dash.array[0] && this.dash.array[1])
             cr.setDash(this.dash.array, this.dash.offset);
         
         if (this.eraser)
@@ -429,7 +430,24 @@ const _DrawingElement = GObject.registerClass({
     _drawSvg(transAttribute, bgcolorString) {
         let row = "\n  ";
         let points = this.points.map((point) => [Math.round(point[0]*100)/100, Math.round(point[1]*100)/100]);
-        let color = this.eraser ? bgcolorString : this.color.toJSON();
+        
+        // Ensure color has toJSON method (may be lost during copy/mirror operations)
+        let color;
+        if (this.eraser) {
+            color = bgcolorString;
+        } else {
+            if (this.color.toJSON && typeof this.color.toJSON === 'function') {
+                color = this.color.toJSON();
+            } else {
+                // Fallback: reconstruct color string from Color object
+                if (this.color.to_string && typeof this.color.to_string === 'function') {
+                    color = this.color.to_string().slice(0, -2); // Remove alpha suffix
+                } else {
+                    color = `rgb(${this.color.red},${this.color.green},${this.color.blue})`;
+                }
+            }
+        }
+        
         let fill = this.fill && !this.isStraightLine;
         let attributes = this.eraser ? `class="eraser" ` : '';
         

@@ -313,11 +313,7 @@
     <key type="as" name="switch-fill">
       <default>["&lt;Primary&gt;&lt;Shift&gt;a"]</default>
       <summary>Toggle fill/outline</summary>
-    </key>
-    <key type="as" name="switch-fill-rule">
-      <default>["&lt;Primary&gt;KP_Multiply","&lt;Primary&gt;asterisk","&lt;Primary&gt;&lt;Shift&gt;asterisk"]</default>
-      <summary>Toggle fill rule</summary>
-    </key>
+    </key>    
     <key type="as" name="switch-font-family">
       <default>["&lt;Primary&gt;f"]</default>
       <summary>Change font family</summary>

@@ -149,9 +149,9 @@ class Images {
             get enumerator() {
                 if (this._enumerator === undefined)
                     this._enumerator = this.getExampleEnumerator();
-                else if (this._enumerator?.get_container().equal(this._EXAMPLE_IMAGE_DIRECTORY) && this._enumerator.is_closed())
+                else if (this._enumerator && this._enumerator.get_container().equal(this._EXAMPLE_IMAGE_DIRECTORY) && this._enumerator.is_closed())
                     this._enumerator = this.getUserEnumerator();
-                else if (this._enumerator?.is_closed())
+                else if (this._enumerator && this._enumerator.is_closed())
                     this._enumerator = null;
 
                 return this._enumerator;
@@ -186,13 +186,13 @@ class Images {
 
     getNext(currentImage) {
         let images = this.getSorted();
-        let index = currentImage?.file ? images.findIndex(image => image.file.equal(currentImage.file)) : -1;
+        let index = (currentImage && currentImage.file) ? images.findIndex(image => image.file.equal(currentImage.file)) : -1;
         return images[index == images.length - 1 ? 0 : index + 1] || null;
     }
 
     getPrevious(currentImage) {
         let images = this.getSorted();
-        let index = currentImage?.file ? images.findIndex(image => image.file.equal(currentImage.file)) : -1;
+        let index = (currentImage && currentImage.file) ? images.findIndex(image => image.file.equal(currentImage.file)) : -1;
         return images[index <= 0 ? images.length - 1 : index - 1] || null;
     }
 

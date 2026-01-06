@@ -42,7 +42,7 @@ Thank you to all the contributors! 😎
 
    > Note: You may need to enter your sudo password during the install. Make sure you are a sudoer!
 
-   > **IMPORTANT!!** Always check scripts before running them! If you are uncomfortable running the script, or cannot run the script, then install manually with an option listed in the [Documentation](https://daveprowse.github.io/Draw-On-Gnome/installation/).
+   > **IMPORTANT!!** Always check scripts before running them! If you are uncomfortable running the script, or cannot run the script, then install manually with an option listed in the [Documentation](https://daveprowse.github.io/Draw-On-Gnome/installation/#option-3-install-manually-from-the-release-or-repository-branch/).
 
 2. Logout and log back in.
 

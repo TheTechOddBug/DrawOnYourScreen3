@@ -35,7 +35,7 @@ export const INTERNAL_KEYBINDINGS = [
     'undo', 'redo', 'delete-last-element', 'smooth-last-element',
     'select-none-shape', 'select-line-shape', 'select-arrow-shape', 'select-laser-shape', 'select-highlighter-shape', 'select-ellipse-shape', 'select-rectangle-shape', 'select-polygon-shape', 'select-polyline-shape',
     'select-text-shape', 'select-image-shape', 'select-move-tool', 'select-resize-tool', 'select-mirror-tool',
-    'switch-fill', 'switch-fill-rule', 'switch-color-palette', 'switch-color-palette-reverse', 'pick-color',
+    'switch-fill', 'switch-color-palette', 'switch-color-palette-reverse', 'pick-color',
     'increment-line-width', 'increment-line-width-more', 'decrement-line-width', 'decrement-line-width-more',
      'switch-linejoin', 'switch-linecap', 'switch-dash',
     'switch-font-family', 'switch-font-family-reverse', 'switch-font-weight', 'switch-font-style', 'switch-text-alignment',

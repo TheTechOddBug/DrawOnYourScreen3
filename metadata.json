@@ -1,15 +1,17 @@
 {
     "uuid": "draw-on-gnome@daveprowse.github.io",
     "name": "Draw On Gnome",
-    "description": "Annotation tool for the GNOME desktop. This extension accesses the clipboard when you press Ctrl+V to paste images.  This is a fork of the original DrawOnYourScreen by abakkk.",
+    "description": "Annotation tool for the GNOME desktop. Documentation at: https://daveprowse.github.io/Draw-On-Gnome/. Note: This extension accesses the clipboard when you press Ctrl+V to paste images.  Credits: This is a fork of the original DrawOnYourScreen by abakkk.",
     "url": "https://github.com/daveprowse/Draw-On-Gnome",    
     "gettext-domain": "draw-on-gnome", 
     "settings-schema": "org.gnome.shell.extensions.draw-on-gnome",
     "data-dir": "draw-on-gnome",    
     "shell-version": [                
+        "46",
+        "47",
         "48", 
         "49"        
     ],    
-    "version-name": "7.0",
-    "version": 7    
+    "version-name": "8.0",
+    "version": 8    
 }
