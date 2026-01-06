@@ -13,7 +13,7 @@ Thank you to all the contributors! 😎
 - Draw over applications
 - Basic shapes (rectangle, circle, ellipse, line, polygon, polyline, arrow, text, free)
 - Basic transformations (move, rotate, resize, mirror)
-- Laser pointer, highlighter (GNOME version 48 and newer)
+- Laser pointer, highlighter 
 - Blackboard and Grid
 - Paste images from local computer
 - Keep drawings on desktop background with persistence
