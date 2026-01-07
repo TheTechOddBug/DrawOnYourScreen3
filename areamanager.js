@@ -505,7 +505,7 @@ export class AreaManager {
         // Safety check: verify the cursor constant exists before using it
         if (!Meta.Cursor[mappedCursorName]) {
             // Fallback to DEFAULT if cursor doesn't exist
-            log(`Draw On Gnome: Cursor ${mappedCursorName} not found, using DEFAULT`);
+            console.debug(`Draw On Gnome: Cursor ${mappedCursorName} not found, using DEFAULT`);
             mappedCursorName = 'DEFAULT';
         }
         
@@ -516,7 +516,7 @@ export class AreaManager {
             else if (global.screen && global.screen.set_cursor)
                 global.screen.set_cursor(Meta.Cursor[mappedCursorName]);
         } catch (e) {
-            log(`Draw On Gnome: Error setting cursor ${mappedCursorName}: ${e.message}`);
+            console.debug(`Draw On Gnome: Error setting cursor ${mappedCursorName}: ${e.message}`);
         }
     }
     

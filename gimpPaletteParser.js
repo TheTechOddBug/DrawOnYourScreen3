@@ -51,7 +51,7 @@ function parse(contents) {
 
     line = lines.shift();
     if (!line || !line.startsWith('GIMP Palette'))
-        console.log("Missing magic header");
+        console.error("Missing magic header");
 
     line = lines.shift();
     if (line.startsWith('Name:')) {

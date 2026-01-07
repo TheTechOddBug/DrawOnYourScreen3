@@ -1855,7 +1855,7 @@ export const DrawingArea = GObject.registerClass({
                 });
             }
         } catch (e) {
-            console.log(`${this._extension.metadata.uuid}: color picker failed: ${e.message}`);
+            console.error(`${this._extension.metadata.uuid}: color picker failed: ${e.message}`);
             this.initPointerCursor();
         }
     }
@@ -2194,7 +2194,7 @@ export const DrawingArea = GObject.registerClass({
             return color;
         }
 
-        console.log(`${this._extension.metadata.uuid}: "${string}" color cannot be parsed.`);
+        console.warn(`${this._extension.metadata.uuid}: "${string}" color cannot be parsed.`);
         color = StaticColor[fallback.toUpperCase()];
         color.toJSON = () => fallback;
         color.toString = () => fallback;

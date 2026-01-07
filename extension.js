@@ -85,7 +85,7 @@ export default class DrawOnGnomeExtension extends Extension {
     }
 
     enable() {
-        console.log(`enabling ${this.metadata.name} version ${this.metadata.version}`);
+        console.debug(`enabling ${this.metadata.name} version ${this.metadata.version}`);
         
         this.settings = this.getSettings();
         this.internalShortcutSettings = this.getSettings(this.metadata['settings-schema'] + '.internal-shortcuts');

@@ -203,10 +203,10 @@ class Images {
     addImagesFromClipboard(callback) {
         // The following clipboard access only occurs when the user EXPLICITLY presses Ctrl+V to paste an image. It is not accessed silently by the extension.         
         St.Clipboard.get_default().get_text(St.ClipboardType.CLIPBOARD, (clipboard, text) => {
-            console.log(`DEBUG CLIPBOARD: text="${text}"`);
+            console.debug(`DEBUG CLIPBOARD: text="${text}"`);
             if (!text) {
                 // testing for images
-                console.log(`DEBUG CLIPBOARD: No text in clipboard`);
+                console.debug(`DEBUG CLIPBOARD: No text in clipboard`);
                 return;
             }
 
