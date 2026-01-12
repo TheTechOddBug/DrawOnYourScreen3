@@ -22,11 +22,11 @@ Thank you to all the contributors! 😎
 
 ## Installation Options
 
-### Option 1: Install from GNOME Extensions (ver. 48/49)
+### Option 1: Install from GNOME Extensions (ver. 49/48/47/46)
 
 [<img src="https://daveprowse.github.io/Draw-On-Gnome/images/gnome-extensions.png" height="100">](https://extensions.gnome.org/extension/7921/draw-on-gnome/)
 
-> **IMPORTANT!!**: Currently, this will *only* install to GNOMEv48 and v49. If you need the extension for another version of GNOME, see Option 2.
+> **IMPORTANT!!**: Currently, this will *only* install to GNOMEv46 through v49. If you need the extension for another version of GNOME, see Option 2.
 
 ### Option 2: Use the Automated Script
 
