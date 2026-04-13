@@ -224,7 +224,9 @@ export const DrawingMenu = GObject.registerClass({
         let monitor = this.area.monitor;
         this.menu._arrowAlignment = (y - monitor.y) / monitor.height;
         this.menu.open(BoxPointer.PopupAnimation.NONE);
-        this.menuManager.ignoreRelease();
+        // ignoreRelease() was removed in GNOME 50
+        if (this.menuManager.ignoreRelease)
+            this.menuManager.ignoreRelease();
     }
     
     close() {
