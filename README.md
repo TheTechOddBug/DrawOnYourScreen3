@@ -8,6 +8,8 @@ Documentation is **[here](https://daveprowse.github.io/Draw-On-Gnome/)**.
 
 Thank you to all the contributors! 😎
 
+> Note: For those of you using GNOME version 50, clone the main repo for now - it works. I am working hard on a unified solution and hope to release a new version soon. 
+
 ## Features
 
 - Draw over applications
