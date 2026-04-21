@@ -6,7 +6,7 @@ Annotate your GNOME™ desktop with **`Super+Alt+D`**.
 
 Documentation is **[here](https://daveprowse.github.io/Draw-On-Gnome/)**.
 
-Thank you to all the contributors! 😎
+Want to contribute? Read [this](https://github.com/daveprowse/Draw-On-Gnome?tab=contributing-ov-file) first. And thank you to all the contributors! 😎 
 
 ## Features
 
