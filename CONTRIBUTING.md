@@ -15,7 +15,11 @@ Draw On Gnome currently has two active versions:
 | **v9.0** | GNOME 46–49 | Frozen — maintenance only |
 | **v11.0+** | GNOME 50+ | Active development |
 
-**All new development targets GNOME 50+.** PRs for v9.0 will not be accepted unless they address a critical bug or security issue. If you are contributing a new feature, it belongs in the v11.0+ codebase only.
+**All new development targets GNOME 50+.** If you are contributing a new feature, it belongs in the v11.0+ codebase only. 
+
+PRs for v9.0 will not be accepted unless they address a critical bug or security issue. To do this, please work in the `version-9` branch!
+
+> Note: fixes to version-9 are maintained separately and will not be merged into main."
 
 ---
 
