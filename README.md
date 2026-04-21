@@ -29,6 +29,8 @@ Thank you to all the contributors! 😎
 > **IMPORTANT!!**: Currently, this will *only* install to GNOMEv46 through v49. If you need the extension for another version of GNOME, see Option 2.
 >
 > To check your version of gnome type `gnome-shell --version`.
+>
+> Note: E.G.O. reviews are currently delayed, so GitHub releases are the fastest way to get the latest version.
 
 
 ### Option 2: Use the Automated Script

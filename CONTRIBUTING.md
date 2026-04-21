@@ -2,7 +2,20 @@
 
 Thank you for your interest in contributing to **Draw On Gnome**! This document outlines the guidelines and process for submitting contributions.
 
-Have questions or want to discuss ideas first? Join the [Discord Server](https://discord.com/invite/mggw8VGzUp) or start a [Discussion on GitHub](https://github.com/daveprowse/Draw-On-Gnome/discussions/categories/ideas).
+Have questions or want to discuss ideas first? Start a [Discussion on GitHub](https://github.com/daveprowse/Draw-On-Gnome/discussions/categories/ideas).
+
+---
+
+## Version Overview
+
+Draw On Gnome currently has two active versions:
+
+| Version | GNOME Support | Status |
+|---------|--------------|--------|
+| **v9.0** | GNOME 46–49 | Frozen — maintenance only |
+| **v11.0+** | GNOME 50+ | Active development |
+
+**All new development targets GNOME 50+.** PRs for v9.0 will not be accepted unless they address a critical bug or security issue. If you are contributing a new feature, it belongs in the v11.0+ codebase only.
 
 ---
 
@@ -12,25 +25,21 @@ Please check the [Roadmap](https://daveprowse.github.io/Draw-On-Gnome/roadmap/) 
 
 ---
 
-## The Most Important Requirement: Cross-Version Testing
+## Testing Requirements
 
-Draw On Gnome supports **GNOME 46, 47, 48, 49, and 50**. This is non-negotiable — the extension must work reliably across all supported versions.
-
-**Please test your code on as many of these GNOME versions as you can before submitting a PR.** At minimum, test on the version you developed on and note clearly which versions you tested in your PR description.
+Draw On Gnome v11.0+ targets **GNOME 50 and newer**. Please test your code on GNOME 50 before submitting a PR, and note clearly which versions you tested in your PR description.
 
 ### Why This Matters
 
-- In general, there are many distros that use varying levels of GNOME. 
-- Ubuntu 24.04 LTS ships GNOME 46 — a huge user base
-- Ubuntu 26.04 LTS ships GNOME 50
-- Breakage on any supported version affects real users
+- Ubuntu 26.04 LTS ships GNOME 50 — a major user base
+- Fedora 44 ships GNOME 50
+- GNOME 50 is Wayland-only — X11 compatibility code is no longer relevant
 
-### Common Cross-Version Pitfalls
+### GNOME 50 Specifics
 
-- **JavaScript syntax** — avoid modern JS features that older GJS versions don't support. No nullish coalescing (`??`), no optional chaining (`?.`). Use traditional ternary operators and null checks instead.
-- **Clutter/Cogl API differences** — `Clutter.Color` vs `Cogl.Color` varies by version. Check `utils.js` for existing compatibility patterns.
-- **Cursor API differences** — handled in `areamanager.js`, follow the existing version-check pattern.
-- **St widget lifecycle** — be careful with widget initialization order.
+- **`Meta.Cursor` and `display.set_cursor()` are gone** — cursor shape changes are currently non-functional on GNOME 50 (no public replacement API exists for extensions). Do not attempt to reintroduce these calls.
+- **`Clutter.Color` is gone** — use `Cogl.Color` or the existing `Color` ternary pattern in `elements.js`
+- **Wayland-only** — do not introduce any X11-specific code paths
 
 ---
 
@@ -69,9 +78,21 @@ Follow the [GJS Extension Port Guide for GNOME 45+](https://gjs.guide/extensions
 
 If your contribution adds new widgets, signal handlers, keybindings, or other resources, make sure they are properly destroyed or disconnected in the appropriate `disable()` or `destroy()` method. Memory leaks and lingering handlers will cause issues for users.
 
-### No `schemas/gschemas.compiled`
+### Schema Files
 
-Do not include a compiled schema file in your PR. It is not needed for GNOME 45+ and will cause a rejection from the GNOME Extensions store reviewer.
+The extension uses three separate GSettings schema files in `schemas/`:
+
+- `org.gnome.shell.extensions.draw-on-gnome.gschema.xml`
+- `org.gnome.shell.extensions.draw-on-gnome.drawing.gschema.xml`
+- `org.gnome.shell.extensions.draw-on-gnome.internal-shortcuts.gschema.xml`
+
+If you add a new GSettings key, add it to the appropriate schema file and recompile locally with:
+
+```bash
+glib-compile-schemas schemas/
+```
+
+Include the updated `gschemas.compiled` in your PR — it is required for GitHub installs. Do **not** include it if submitting directly to the GNOME Extensions store (E.G.O. compiles schemas itself).
 
 ---
 
@@ -79,7 +100,7 @@ Do not include a compiled schema file in your PR. It is not needed for GNOME 45+
 
 1. Fork the repository and create your branch from `main`
 2. Make your changes
-3. Test across as many supported GNOME versions as possible
+3. Test on GNOME 50
 4. In your PR description, include:
    - What the change does
    - Which GNOME versions you tested on
@@ -90,14 +111,14 @@ Do not include a compiled schema file in your PR. It is not needed for GNOME 45+
 
 ## What Happens After You Submit
 
-Pull requests are evaluated and tested across all supported GNOME versions (46–50) before merging. This takes time. The maintainer may:
+Pull requests are evaluated and tested on GNOME 50 before merging. This takes time. The maintainer may:
 
 - Merge your PR as-is
 - Merge a modified version of your PR (e.g. reverting a specific change that conflicts with existing behavior) and close the original PR with a note
 - Request changes via review comments
 - Close the PR if it conflicts with the project direction
 
-Please be patient — cross-version testing across multiple VMs takes time, and this is a one-person maintainer project.
+Please be patient — this is a one-person maintainer project.
 
 ---
 
