@@ -25,7 +25,7 @@ PRs for v9.0 will not be accepted unless they address a critical bug or security
 
 ## Before You Start
 
-Please check the [Roadmap](https://daveprowse.github.io/Draw-On-Gnome/roadmap/) to see what is already planned, in progress, or being discussed. If your idea is already listed, feel free to take a shot at it and open a PR. If it is something new, open a Discussion first so we can talk through the approach before you invest time writing code.
+Please check the [Github Issues](https://github.com/daveprowse/Draw-On-Gnome/issues) and the [Roadmap](https://daveprowse.github.io/Draw-On-Gnome/roadmap/) to see what is already planned, in progress, or being discussed. If your idea is already listed, feel free to take a shot at it and open a PR. If it is something new, open a Discussion first so we can talk through the approach before you invest time writing code.
 
 ---
 
