@@ -31,7 +31,7 @@ Please check the [Github Issues](https://github.com/daveprowse/Draw-On-Gnome/iss
 
 ## Testing Requirements
 
-Draw On Gnome v11.0+ targets **GNOME 50 and newer**. Please test your code on GNOME 50 before submitting a PR, and note clearly which versions you tested in your PR description.
+Draw On Gnome v11.0+ targets **GNOME 50 and newer**. Please test your code on GNOME 50+ before submitting a PR, and note clearly which versions you tested in your PR description.
 
 ### Why This Matters
 

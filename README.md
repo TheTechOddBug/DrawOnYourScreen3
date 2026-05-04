@@ -22,16 +22,13 @@ Want to contribute? Read [this](https://github.com/daveprowse/Draw-On-Gnome/blob
 
 ## Installation Options
 
-### Option 1: Install from GNOME Extensions (ver. 49/48/47/46) ---NOT 50!!
+### Option 1: Install from GNOME Extensions (ver. 50/49/48/47/46)
 
 [<img src="https://daveprowse.github.io/Draw-On-Gnome/images/gnome-extensions.png" height="100">](https://extensions.gnome.org/extension/7921/draw-on-gnome/)
 
-> **IMPORTANT!!**: Currently, this will *only* install to GNOMEv46 through v49. If you need the extension for another version of GNOME, see Option 2.
+> **IMPORTANT!!**: Currently, this will *only* install to GNOMEv46 through v50. If you need the extension for another version of GNOME, see Option 2.
 >
 > To check your version of gnome type `gnome-shell --version`.
->
-> Note: E.G.O. reviews are currently delayed, so GitHub releases are the fastest way to get the latest version.
-
 
 ### Option 2: Use the Automated Script
 
