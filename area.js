@@ -1539,11 +1539,12 @@ export const DrawingArea = GObject.registerClass({
     }
 
     selectTool(tool) {
+        if (this.isWriting)
+            this._stopWriting();
         this.currentTool = tool;
         this.emit('show-osd', this._extension.FILES.ICONS[`TOOL_${Tool.getNameOf(tool)}`] || null, DisplayStrings.Tool[tool], "", -1, false);
         this.updatePointerCursor();
     }
-
     // Laser Control Methods
     startLaserPointer(x, y) {
         if (this.laserPointerActive)
